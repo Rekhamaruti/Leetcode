@@ -1,3 +1,4 @@
+/*Problem of the day- Sum of Square Numbers-*/
 class Solution {
     public boolean judgeSquareSum(int c) {
         for (int divisor = 2; divisor * divisor <= c; divisor++) {
