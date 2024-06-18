@@ -1,0 +1,52 @@
+# Most Profit Assigning Work
+class Solution {
+    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+        Ele[] arr=new Ele[difficulty.length];
+        int ans=0;
+        for(int i=0;i<difficulty.length;i++){
+            Ele obj=new Ele(difficulty[i],profit[i]);
+            arr[i]=obj;
+        }
+        Arrays.sort(arr,(a,b)->a.diff==b.diff?b.profit-a.profit:a.diff-b.diff);
+        int[] prev_great=new int[difficulty.length];
+        prev_great[0]=arr[0].profit;
+        for(int i=1;i<difficulty.length;i++){
+            prev_great[i]=Math.max(prev_great[i-1],arr[i].profit);
+        }
+        for(int i=0;i<worker.length;i++){
+            int idx=binary_search(worker[i],arr);
+            if(idx!=-1){
+                ans+=prev_great[idx];
+            }
+        }
+        return ans;
+    }
+    public int binary_search(int x,Ele[] arr){
+        int l=0,h=arr.length-1;
+        int res=-1;
+        while(l<=h){
+            int mid=(l+h)/2;
+
+            if(arr[mid].diff<=x){
+                res=mid;
+                l=mid+1;
+            }
+            else{
+                h=mid-1;
+            }
+        }
+        return res;
+    }
+}
+class Ele{
+    int diff;
+    int profit;
+
+    Ele(int diff,int profit){
+        this.diff=diff;
+        this.profit=profit;
+    }
+    public String toString(){
+        return this.diff+" "+this.profit+"\n";
+    }
+}
